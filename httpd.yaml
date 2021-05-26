@@ -1,0 +1,39 @@
+---
+ name: THIS PLAYBOOK IS MULTITASK EXECUTION
+ hosts: PROD
+ tasks: 
+   - name: CREATING USER CAM
+     user: 
+       name: cam 
+       state: present
+       uid: 3000
+   - name: COPYING /etc/hosts TO REMOTE HOSTS
+     copy: 
+       src: /etc/hosts
+       dest: /mnt/hosts
+   - name: INSTALLING HTTPD
+     yum: 
+       name: httpd
+       state: present
+   - name: COPY WEBSITE CONTENT
+     copy: 
+       src: /tmp/index.html
+       dest: /var/www/html/index.html
+   - name: DISABLING SE LINUX
+     selinux:
+       policy: targeted
+       state: permissive
+   - name: ADDING HTTPD PORT IN FIREWALL
+     firewalld:
+       service: httpd
+       permanent: true
+       state: enabled
+       immidiate: yes
+   - name: STARTING HTTPD SERVICE
+     service:
+       name: httpd
+       state: started
+       enabled: yes
+...
+       
+   
